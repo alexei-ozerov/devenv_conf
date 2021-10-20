@@ -37,6 +37,15 @@ LangInstall()
   # Install Rust
   echo -e "Installing Rust via RustUp. Please make sure you have an executable tmp directory."
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+  # Install GoLang Toolchain
+  echo -e "Installing GoLang via XBPS."
+  xbps-install -y go
+  go install github.com/go-delve/delve/cmd/dlv@latest
+
+  # Install C Development Dependencies
+  echo -e "Installing GCC & Build Essentials"
+  xbps-install -y gcc cmake
 }
 
 # Get the options
