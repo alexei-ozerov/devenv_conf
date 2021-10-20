@@ -1,14 +1,53 @@
-# Moving Data
-echo -e "Copying Dotfiles ..."
-cp dotfiles/.vimrc ~/.vimrc
-cp dotfiles/.tmux.conf ~/.tmux.conf
-cp -R dotfiles/.config/neovim ~/.config/neovim/
+#!/bin/bash
 
-# Downloading Data
-echo -e "Installing Plugins"
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+Help()
+{
+   # Display Help
+   echo "Download & Set Up Configurations For Personal Development Environment."
+   echo
+   echo "Syntax: ./install.sh [h|l|d|a]"
+   echo "options:"
+   echo "h     Print this Help."
+   echo "l     Install only languages."
+   echo "d     Install only dotfiles."
+   echo "a     Install both dotfiles and languages."
+   echo
+}
 
-# Configuring Plugins
-echo -e "To enable VIM Plugins, please install them by opening VIM and running :PlugInstall"
+DotFiles()
+{
+  # Moving Data
+  echo -e "Copying Dotfiles ..."
+  cp dotfiles/.vimrc ~/.vimrc
+  cp dotfiles/.tmux.conf ~/.tmux.conf
+  cp -R dotfiles/.config/neovim ~/.config/neovim/
+
+  # Downloading Data
+  echo -e "Installing Plugins"
+  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+  # Configuring Plugins
+  echo -e "To enable VIM Plugins, please install them by opening VIM and running :PlugInstall"
+}
+
+LangInstall()
+{
+  # Install Rust
+  echo -e "Installing Rust via RustUp. Please make sure you have an executable tmp directory."
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+}
+
+# Get the options
+while getopts ":h" option; do
+   case $option in
+      h) # display Help
+         Help
+         exit;;
+      d) # install DotFiles
+        DotFiles
+        exit ;;
+   esac
+done
+
