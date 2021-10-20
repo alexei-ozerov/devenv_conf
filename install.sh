@@ -1,11 +1,24 @@
 #!/bin/bash
 
+#   Dev Env Config  
+# /""""""""""""""""\___/ ==    	2021-10-20 :: Alexei Ozerov
+# {          	/ ===- ___       	alexei.ozerov.7@gmail.com
+# \______ O    	__/	  |        	github.com/alexei-ozerov
+#  \	\   	__/        \ ==    	Version 0.5.0
+#   \____\_______/
+#
+# Note: the language insall feature is designed to work only
+#       with Void Linux as of version 0.5.0. You will need
+#       to modify this script with your distro's package
+#       management tool in order for it to work elsewhere.
+
+
 Help()
 {
    # Display Help
    echo "Download & Set Up Configurations For Personal Development Environment."
    echo
-   echo "Syntax: ./install.sh [h|l|d|a]"
+   echo "Syntax: ./install.sh -[h|l|d|a]"
    echo "options:"
    echo "h     Print this Help."
    echo "l     Install only languages."
@@ -46,6 +59,11 @@ LangInstall()
   # Install C Development Dependencies
   echo -e "Installing GCC & Build Essentials"
   xbps-install -y gcc cmake
+
+  # Install Python3 Toolchain
+  echo -e "Installing Python3, venv, and pip3"
+  xbps-install -y python3
+  pip3 install virtualenv
 }
 
 # Get the options
